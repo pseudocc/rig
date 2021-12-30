@@ -1,6 +1,8 @@
 # Random Identifier Generator
 
-Insert a random identifier for your code on insert mode.
+Vim plugin that inserts random identifiers for your codes on insert mode.
+
+I could say this is one of the best plugin to make code unmaintainable.
 
 ## Installation
 
@@ -21,7 +23,7 @@ copy `plugin/rig.vim` to `~/.vim/plugin`
 The default generation setting will generate
 an identifier with a length of 1 to 3.
 
-```vimscript
+```vim
 " Pattern for generation
 " u - upper case
 " l - lower case
