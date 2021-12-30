@@ -60,7 +60,7 @@ endf
 
 func! RigGenerate(forget) abort
   if a:forget
-    RigForget()
+    call RigForget()
   endif
   try
     let rig = RigCore()
