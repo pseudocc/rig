@@ -14,6 +14,7 @@ endif
 
 let g:rig_version = 0
 let g:rig_memory = {}
+let g:rig_lifetime = 1024
 let g:rig_is_ready = 1
 
 " Pattern for generation
@@ -69,10 +70,14 @@ func! RigGenerate(forget) abort
     echoerr "RigCore Errorred."
     echoerr v:exception
   endtry
-  let g:rig_version = g:rig_version + 1
-  let g:rig_memory[rig] = g:rig_version
-  return rig
+  if get(g:rig_memory, rig, -1) < 0 ||
+    \g:rig_memory[rig] < g:rig_version - g:rig_lifetime
+    let g:rig_version = g:rig_version + 1
+    let g:rig_memory[rig] = g:rig_version
+    return rig
+  endif
+  return RigGenerate(0)
 endf
 
-imap <expr> <C-i> RigGenerate(0)
-imap <expr> <C-S-i> RigGenerate(1)
+inoremap <expr> <C-S-z> RigGenerate(0)
+inoremap <expr> <C-S-x> RigGenerate(1)

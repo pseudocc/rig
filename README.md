@@ -10,11 +10,11 @@ copy `plugin/rig.vim` to `~/.vim/plugin`
 
 ## Usage
 
-- Ctrl+i
+- Ctrl+Shift+z
 
     Insert an identifier
 
-- Ctrl+Shift+i
+- Ctrl+Shift+x
 
     Clear history and insert an identifier
 
