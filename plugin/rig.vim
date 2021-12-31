@@ -2,7 +2,7 @@
 " A great plugin to make codes unmaintainable
 " 
 " Author:       Yu Ze <pseudoc@163.com>
-" Version:      0.1.0
+" Version:      0.2.0
 " License:      MIT
 " Repository:   https://github.com/pseudoc/rig
 
