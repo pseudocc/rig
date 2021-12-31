@@ -10,15 +10,30 @@ copy `plugin/rig.vim` to `~/.vim/plugin`
 
 ## Usage
 
-- Ctrl+Shift+z
+- Ctrl+z,z
 
-    Insert an identifier
+    Insert an identifier with default pattern.
 
-- Ctrl+Shift+x
+- Ctrl+z,x
 
-    Clear history and insert an identifier
+    Insert an identifier with a fixed size (default is 3).
+
+- Ctrl+z,c
+
+    Clear identifier histroy.
+
+- Ctrl+z,i
+
+    Insert an identifier with certain length (1~9).
 
 ## Configuration
+
+You can configure fixed size used by ctrl+z,x.
+Or generation patterns.
+
+```vim
+  let g:rig_fixed_size = 3
+```
 
 The default generation setting will generate
 an identifier with a length of 1 to 3.

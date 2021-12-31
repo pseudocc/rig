@@ -16,6 +16,7 @@ let g:rig_version = 0
 let g:rig_memory = {}
 let g:rig_lifetime = 1024
 let g:rig_is_ready = 1
+let g:rig_fixed_size = 3
 
 " Pattern for generation
 " u - upper case
@@ -23,6 +24,7 @@ let g:rig_is_ready = 1
 " d - digit
 " x - blank
 let g:rig_patterns = ['l', 'lldux', 'lddx']
+let g:rig_fixed_patterns = ['l', 'lldu', 'ldu']
 let g:rig_patconf = {
   \'l': [97, 26],
   \'u': [65, 26],
@@ -39,6 +41,7 @@ endf
 func! RigForget()
   let g:rig_version = 0
   let g:rig_memory = {}
+  return ''
 endf
 
 func! RigOne(pt)
@@ -48,28 +51,51 @@ func! RigOne(pt)
   return nr2char(rn + offset)
 endf
 
-func! RigCore()
+func! RigCore(pts, n)
   let id = ''
-  for pt in g:rig_patterns
+  let i = 0
+  let size = len(a:pts)
+
+  while i < a:n
+    if i < size
+      let pt = a:pts[i]
+    else
+      let rn = Rand() % (size - 1) + 1
+      let pt = a:pts[rn]
+    endif
     let lp = strlen(pt)
     let rn = Rand() % lp
     let p1 = nr2char(strgetchar(pt, rn))
     let id = id.RigOne(p1)
-  endfor
+    let i = i + 1
+  endwhile
+
   return id
 endf
 
-func! RigGenerate(forget) abort
-  if a:forget
-    call RigForget()
-  endif
+func! RigGenerate(fixed) abort
   try
-    let rig = RigCore()
+    if a:fixed
+      if a:fixed < 0
+        let n = getchar() - 48
+        if n < 0 || n > 9
+          echoerr "Not a number"
+          return ''
+        endif
+      else
+        let n = a:fixed
+      endif
+      let pts = g:rig_fixed_patterns
+    else
+      let n = len(g:rig_patterns)
+      let pts = g:rig_patterns
+    endif
+    let rig = RigCore(pts, n)
   catch
     let g:rig_is_ready = 0
-    echoerr "RigCore Errorred."
     echoerr v:exception
   endtry
+
   if get(g:rig_memory, rig, -1) < 0 ||
     \g:rig_memory[rig] < g:rig_version - g:rig_lifetime
     let g:rig_version = g:rig_version + 1
@@ -79,5 +105,7 @@ func! RigGenerate(forget) abort
   return RigGenerate(0)
 endf
 
-inoremap <expr> <C-S-z> RigGenerate(0)
-inoremap <expr> <C-S-x> RigGenerate(1)
+inoremap <expr> <C-z>i RigGenerate(-1)
+inoremap <expr> <C-z>z RigGenerate(0)
+inoremap <expr> <C-z>x RigGenerate(g:rig_fixed_size)
+inoremap <expr> <C-z>c RigForget() 
