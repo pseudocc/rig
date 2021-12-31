@@ -1,5 +1,5 @@
-" Insert random identifier for you code
-" A greet plugin to make code unmaintainable
+" Insert random identifier for you codes
+" A great plugin to make codes unmaintainable
 " 
 " Author:       Yu Ze <pseudoc@163.com>
 " Version:      0.1.0
